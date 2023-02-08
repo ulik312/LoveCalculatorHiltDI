@@ -1,5 +1,6 @@
 package com.example.lovecalculatorhiltdi
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -27,9 +28,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initClickers() {
         with(binding){
+            btnHistory.setOnClickListener {
+                startActivity(Intent(this@MainActivity, ResultActivity::class.java))
+            }
             btnCalculate.setOnClickListener {
                 viewModel.getLiveLove(etFname.text.toString(),edSname.text.toString()).
                 observe(this@MainActivity, Observer {
+                    App.appDatabase.loveDao().insert(it)
                     Log.e("ololo", "initClickers: ${it.percentage}")
                 })
             }
